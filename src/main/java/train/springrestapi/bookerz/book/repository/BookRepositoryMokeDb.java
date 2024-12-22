@@ -14,7 +14,7 @@ public class BookRepositoryMokeDb implements IBookRepository {
     private List<Book> books = new ArrayList<>();
 
     @PostConstruct // after init of bean properties
-    private void init(){
+    private void init() {
         books.add(new Book(1, "Book 1", "Author 1", "Genre 1"));
         books.add(new Book(2, "Book 2", "Author 2", "Genre 2"));
         books.add(new Book(3, "Book 3", "Author 3", "Genre 3"));
@@ -27,21 +27,28 @@ public class BookRepositoryMokeDb implements IBookRepository {
 
     @Override
     public Optional<Book> getBookById(long id) {
-        return Optional.empty();
+        return books.stream().filter(b ->
+                b.Id() == id).findFirst();
     }
 
     @Override
-    public Book createBook(Book book) {
-        return null;
+    public void createBook(Book book) {
+        books.add(book);
     }
 
     @Override
-    public Book updateBook(long id, Book book) {
-        return null;
+    public void updateBook(long id, Book book) {
+        Optional<Book> bookToUpdate = getBookById(id);
+        //service...
+        if (bookToUpdate.isPresent()) {
+            Book b = bookToUpdate.get();
+            books.set(b.Id(), book);
+        }
+        // else -> throw... - service
     }
 
     @Override
     public void deleteBook(long id) {
-
+        books.removeIf(b -> b.Id() == id);
     }
 }

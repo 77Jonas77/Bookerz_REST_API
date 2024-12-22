@@ -1,7 +1,8 @@
 package train.springrestapi.bookerz.book.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import train.springrestapi.bookerz.book.exceptions.BookNotFoundException;
 import train.springrestapi.bookerz.book.models.Book;
 import train.springrestapi.bookerz.book.repository.IBookRepository;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("/api/books")
 public class BookController implements IBookController{
 
+    //BL in Controller and Repository due to simplicity of this project
     private final IBookRepository bookRepository;
 
     public BookController(IBookRepository bookRepository) {
@@ -21,12 +23,14 @@ public class BookController implements IBookController{
 
     //CRUD's - Create, Read, Update, Delete
     @Override
+    @GetMapping
     public List<Book> getBooks() {
         return bookRepository.getBooks();
     }
 
     @Override
-    public Optional<Book> getBookById(long id) {
+    @GetMapping("/{id}")
+    public Optional<Book> getBookById(@PathVariable long id) {
         Optional<Book> bookById = bookRepository.getBookById(id);
         if(bookById.isPresent()) {
             return bookById;
@@ -36,18 +40,25 @@ public class BookController implements IBookController{
     }
 
     @Override
-    public Book createBook(Book book) {
-        return null;
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createBook(@Valid @RequestBody Book book) {
+        bookRepository.createBook(book);
+        System.out.println("test");
     }
 
     @Override
-    public Book updateBook(long id, Book book) {
-        return null;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void updateBook(@PathVariable long id, @Valid @RequestBody Book book) {
+        bookRepository.updateBook(id, book);
     }
 
     @Override
-    public void deleteBook(long id) {
-
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBook(@PathVariable long id) {
+        bookRepository.deleteBook(id);
     }
 
 }
