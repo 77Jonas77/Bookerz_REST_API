@@ -1,8 +1,8 @@
 package train.springrestapi.bookerz.book.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import train.springrestapi.bookerz.book.exceptions.BookNotFoundException;
 import train.springrestapi.bookerz.book.models.Book;
 import train.springrestapi.bookerz.book.repository.IBookRepository;
 
@@ -31,9 +31,8 @@ public class BookController implements IBookController{
         if(bookById.isPresent()) {
             return bookById;
         }else{
-            throw new
+            throw new BookNotFoundException("Book not found");
         }
-
     }
 
     @Override
