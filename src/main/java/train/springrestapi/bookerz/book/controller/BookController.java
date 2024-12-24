@@ -25,13 +25,13 @@ public class BookController implements IBookController{
     @Override
     @GetMapping
     public List<Book> getBooks() {
-        return bookRepository.getBooks();
+        return bookRepository.findAll();
     }
 
     @Override
     @GetMapping("/{id}")
-    public Optional<Book> getBookById(@PathVariable long id) {
-        Optional<Book> bookById = bookRepository.getBookById(id);
+    public Optional<Book> getBookById(@PathVariable int id) {
+        Optional<Book> bookById = bookRepository.findById(id);
         if(bookById.isPresent()) {
             return bookById;
         }else{
@@ -43,22 +43,21 @@ public class BookController implements IBookController{
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createBook(@Valid @RequestBody Book book) {
-        bookRepository.createBook(book);
-        System.out.println("test");
+        bookRepository.save(book);
     }
 
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void updateBook(@PathVariable long id, @Valid @RequestBody Book book) {
-        bookRepository.updateBook(id, book);
+    public void updateBook(@PathVariable int id, @Valid @RequestBody Book book) {
+        bookRepository.save(book);
     }
 
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBook(@PathVariable long id) {
-        bookRepository.deleteBook(id);
+    public void deleteBook(@PathVariable int id) {
+        bookRepository.deleteById(id);
     }
 
 }

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Book Title 1",
+    "author": "Author 1",
+    "isbn": "978-1234567890"
+  },
+  {
+    "id": 2,
+    "title": "Book Title 2",
+    "author": "Author 2",
+    "isbn": "978-0987654321"
+  }
+]

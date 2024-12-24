@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface IBookController {
     List<Book> getBooks();
-    Optional<Book> getBookById(long id);
+    Optional<Book> getBookById(int id);
     void createBook(Book book);
-    void updateBook(long id, Book book);
-    void deleteBook(long id);
+    void updateBook(int id, Book book);
+    void deleteBook(int id);
 }
